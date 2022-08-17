@@ -1,7 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
+
+  const pathname = useLocation().pathname
+
   return (
     <nav className="navbar navbar-expand-lg mr-0 ml-auto" id="tm-main-nav">
         <button className="navbar-toggler tm-bg-black py-2 px-3 mr-0 ml-auto collapsed" type="button"
@@ -14,13 +17,13 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse tm-nav" id="navbar-nav">
             <ul className="navbar-nav text-uppercase">
-                <li className="nav-item active">
+                <li className={`${pathname === '/' ? 'nav-item active' : 'nav-item'}`}>
                     <Link className="nav-link tm-nav-link" to="/">Home</Link>
                 </li>
-                <li className="nav-item">
+                <li className={`${pathname === '/post' ? 'nav-item active' : 'nav-item'}`}>
                     <Link className="nav-link tm-nav-link" to="/post">Post</Link>
                 </li>
-                <li className="nav-item">
+                <li className={`${pathname === '/auth' ? 'nav-item active' : 'nav-item'}`}>
                     <Link className="nav-link tm-nav-link" to="/auth">Login</Link>
                 </li>
             </ul>

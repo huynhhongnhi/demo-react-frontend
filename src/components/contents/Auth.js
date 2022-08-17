@@ -8,7 +8,7 @@ const Auth = () => {
   let [isLogin, setIsLogin] = useState(true)
 
   const changeAuthMode = () => {
-    setIsLogin(!isLogin)
+    setIsLogin(!isLogin);
   }
 
   return ( 
@@ -21,7 +21,7 @@ const Auth = () => {
                         )
                     } else {
                         return (
-                          <Register hangeAuthMode={changeAuthMode}></Register>
+                          <Register changeAuthMode={changeAuthMode}></Register>
                         )
                     }
             })()  

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Login = () => {
+const Login = props => {
   return (
     <div className="auth-form-container">
         <form className="auth-form">
@@ -30,7 +30,7 @@ const Login = () => {
             <p className="forgot-password text-center mt-2">
               Forgot <a href="#">password ?</a>
               <br/>
-              <a href="#">Sign up</a>
+              <span onClick={props.changeAuthMode}>Sign up</span>
             </p>
           </div>
         </form>
