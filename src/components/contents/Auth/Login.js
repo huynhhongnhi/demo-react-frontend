@@ -1,6 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Login = props => {
+
+  const [email, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const callApi = event => {
+    
+    event.preventDefault();
+
+    if (!email || !password) {
+      console.log('Not params');
+      return;
+    }
+
+    props.fetchLogin({ email, password })
+    console.log('dsvjkfvjf');
+    console.log(email, password);
+  }
+
+
   return (
     <div className="auth-form-container">
         <form className="auth-form">
@@ -12,6 +31,8 @@ const Login = props => {
                 type="email"
                 className="form-control mt-1"
                 placeholder="Enter email"
+                onChange={e => setUserName(e.target.value)}
+
               />
             </div>
             <div className="form-group mt-3">
@@ -20,10 +41,12 @@ const Login = props => {
                 type="password"
                 className="form-control mt-1"
                 placeholder="Enter password"
+                onChange={e => setPassword(e.target.value)}
+
               />
             </div>
             <div className="d-grid gap-2 mt-3 text-center">
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" onClick={callApi} className="btn btn-primary">
                 Submit
               </button>
             </div>
