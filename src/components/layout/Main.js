@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../contents/Home';
 import Post from '../contents/Post';
 import Auth from '../contents/Auth';
 import Footer from '../layout/Footer';
 import Profile from '../contents/Profile';
-
-const [isLogin, setIsLogin] = useState(true)
+import AuthContext from '../../contexts/AuthProvider';
 
 const Main = () => {
+
+    const { auth } = useContext(AuthContext)
 
     return (
         <>
@@ -22,10 +23,9 @@ const Main = () => {
                                         <Route path="/" element={<Home/>} exact />
                                         <Route path="/post" element={<Post/>} to="/post" exact />
                                         {
-                                            (isLogin) ? (<Route path="/auth" element={<Profile></Profile>} exact />) : (<Route path="/auth" element={<Auth></Auth>} exact />)
+                                            (auth && auth.accessToken) ? (<Route path="/auth" element={<Profile></Profile>} exact />) : (<Route path="/auth" element={<Auth></Auth>} exact />)
                                         }
                                     </Routes>
-                                    {/* <Auth></Auth> */}
                                 </div>
                             </div>
                         </div>

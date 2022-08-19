@@ -1,9 +1,17 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Link, useLocation } from 'react-router-dom';
+import AuthContext from '../../contexts/AuthProvider';
 
 const Navbar = () => {
 
   const pathname = useLocation().pathname
+  const { auth, setAuth } = useContext(AuthContext)
+
+  const logOut = () => {
+    console.log('dsbnbvkjf')
+    setAuth({});
+    console.log(auth)
+  }
 
   return (
     <nav className="navbar navbar-expand-lg mr-0 ml-auto" id="tm-main-nav">
@@ -21,11 +29,19 @@ const Navbar = () => {
                     <Link className="nav-link tm-nav-link" to="/">Home</Link>
                 </li>
                 <li className={`${pathname === '/post' ? 'nav-item active' : 'nav-item'}`}>
-                    <Link className="nav-link tm-nav-link" to="/post">Post</Link>
+                    <Link className="nav-link tm-nav-link" to="/post">Admin</Link>
                 </li>
-                <li className={`${pathname === '/auth' ? 'nav-item active' : 'nav-item'}`}>
-                    <Link className="nav-link tm-nav-link" to="/auth">Login</Link>
-                </li>
+                {
+                    (auth && auth.accessToken) ? (
+                        <li onClick={logOut} className={`${pathname === '/logout' ? 'nav-item active' : 'nav-item'}`}>
+                            <Link className="nav-link tm-nav-link" to="/auth">Logout</Link>
+                        </li>
+                    ) : (
+                        <li className={`${pathname === '/auth' ? 'nav-item active' : 'nav-item'}`}>
+                            <Link className="nav-link tm-nav-link" to="/auth">Login</Link>
+                        </li>
+                    )
+                }
             </ul>
         </div>
     </nav>
