@@ -6,10 +6,14 @@ const authApi = {
         const { email, password } = params
         return axiosClient.post(url, { email, password });
     },
-    profile: (params) => {
-        const url = '/api/profile';
+    register: (params) => {
+        const url = '/auth/register';
         const { email, password } = params
-        return axiosClient.post(url, { email, password });
+        return axiosClient.post(url, { email, password, username });
+    },
+    profile: () => {
+        const url = '/api/profile';
+        return axiosClient.get(url);
     }
 }
 

@@ -1,24 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import authApi from '../../../api/authApi';
 
 const Login = props => {
 
   const [email, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  const callApi = event => {
+  const callApi = async (e) => {
     
-    event.preventDefault();
-
-    if (!email || !password) {
+    e.preventDefault();
+    if ( !email || !password ) {
       console.log('Not params');
       return;
     }
 
-    props.fetchLogin({ email, password })
-    console.log('dsvjkfvjf');
-    console.log(email, password);
+    const res = await authApi.login({ email, password });
+    if (res) {
+      const accessToken = res?.data?.token;
+      sessionStorage.setItem('token', JSON.stringify(accessToken));
+    }
   }
-
 
   return (
     <div className="auth-form-container">

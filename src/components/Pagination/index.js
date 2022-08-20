@@ -18,13 +18,13 @@ const Pagination = props => {
     }
 
     const pStyle = {
-        marginRight: '100px'
-      };
+        justifyContent: 'space-between',
+        display: 'flex'
+    };
 
     return (
-        <div>
+        <div style={pStyle}>
             <button
-                style={pStyle}
                 disabled={ skip <= 0 }
                 onClick={ () => handPreviousPage() }
             >

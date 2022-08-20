@@ -1,35 +1,71 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import postApi from '../../api/postApi';
+import Pagination from '../Pagination';
+import { Link } from 'react-router-dom';
 
 const Post = () => {
+  
+  const styleAdd = {
+    textAlign: 'right',
+    marginBottom: '10px'
+  }
+
+  const [posts, setPostList] = useState([]);
+  const [limit, setLimit] = useState(10);
+  const [skip, setSkip] = useState(0);
+
+  const nextPage = () => {
+      setSkip(skip + limit);
+  }
+
+  const previousPage = () => {
+      setSkip(skip - limit);
+  }
+
+  useEffect(() => {
+      async function fetchPostList() {
+          const res = await postApi.fetchList(limit, skip);
+          const { data } = res;
+          setPostList(data);
+      }
+      fetchPostList();
+  }, [skip, limit]);
+  
   return (
-    <div className="post-form-container">
-        <form className="post-form">
-          <div className="post-form-content">
-            <h3 className="post-form-title"></h3>
-            <div className="form-group mt-3">
-              <label>Email address</label>
-              <input
-                type="email"
-                className="form-control mt-1"
-                placeholder="Enter email"
-              />
-            </div>
-            <div className="form-group mt-3">
-              <label>Password</label>
-              <input
-                type="password"
-                className="form-control mt-1"
-                placeholder="Enter password"
-              />
-            </div>
-            <div className="d-grid gap-2 mt-3 text-center">
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </div>
-          </div>
-        </form>
+    <>
+      <div style={styleAdd}>
+        <Link className="nav-link tm-nav-link" to="/post/add">
+          <button>Add</button>
+        </Link>
       </div>
+      <table className="table">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Desciption</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+          {
+            posts.map(post => {
+              return (
+                <tr>
+                  <th scope="row">{ post._id }</th>
+                  <td>{ post.title }</td>
+                  <td>{ post.description }</td>
+                  <td><Link className="nav-link tm-nav-link" to="/post/edit"><button>Edit</button></Link></td>
+                  <td><button>Delete</button></td>
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
+      <Pagination posts={posts} skip={skip} nextPage={nextPage} previousPage={previousPage}></Pagination>
+    </>
   )
 }
 
