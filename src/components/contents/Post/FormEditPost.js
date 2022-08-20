@@ -1,6 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import postApi from '../../../api/postApi';
 
 const Add = props => {
+
+  const [post, setPost] = useState({});
+
+  const [title, setTitle] = useState(null);
+  const [description, setDesciption] = useState(null);
+
+  const handTitleChange = (e) => {
+    setTitle(e.target.value);
+  }
+
+  const handDescriptionChange = (e) => {
+    setDesciption(e.target.value);
+  }
+
+  useEffect(() => {
+      async function fetchDetail() {
+          const res = await postApi.fetchDetail(props.postId);
+          const { data } = res;
+          setPost(data);
+          setTitle(data.title)
+          setDesciption(data.description)
+          console.log(post)
+          console.log(data)
+      }
+      fetchDetail();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await postApi.editItem(props.postId, { title, description });
+    try {
+      props.hide();
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
       <form className="post-form">
@@ -12,20 +49,22 @@ const Add = props => {
               type="text"
               className="form-control mt-1"
               placeholder="Enter email"
-
+              value={title}
+              onChange={handTitleChange}
             />
           </div>
           <div className="form-group mt-3">
-            <label>Desciption</label>
+            <label>Description</label>
             <textarea
               type="text"
               className="form-control mt-1"
               placeholder="Enter password"
-
+              value={description}
+              onChange={handDescriptionChange}
             />
           </div>
           <div className="d-grid gap-2 mt-3 text-center">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" onClick={handleSubmit} className="btn btn-primary">
               Submit
             </button>
           </div>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import postApi from '../../api/postApi';
 import Pagination from '../Pagination';
-import { Link } from 'react-router-dom';
+import Modal from "./Post/Modal";
+import useModal from './Post/useModal';
 
 const Post = () => {
   
@@ -13,6 +14,9 @@ const Post = () => {
   const [posts, setPostList] = useState([]);
   const [limit, setLimit] = useState(10);
   const [skip, setSkip] = useState(0);
+  const [action, setAction] = useState('add');
+  const {isShowing, toggle} = useModal();
+  const [postId, setPostId] = useState(0);
 
   const nextPage = () => {
       setSkip(skip + limit);
@@ -23,20 +27,34 @@ const Post = () => {
   }
 
   useEffect(() => {
-      async function fetchPostList() {
-          const res = await postApi.fetchList(limit, skip);
-          const { data } = res;
-          setPostList(data);
-      }
       fetchPostList();
   }, [skip, limit]);
+
+  async function fetchPostList() {
+    const res = await postApi.fetchList(limit, skip);
+    const { data } = res;
+    setPostList(data);
+  }
+
+  const handleSubmit = async (postId) => {
+    const response = await postApi.deleteItem(postId);
+    try {
+      fetchPostList();
+    } catch (error) {
+      console.log(error)
+    }
+  }
   
   return (
     <>
+      <Modal isShowing={isShowing} hide={toggle} action={action} postId={postId}></Modal>
       <div style={styleAdd}>
-        <Link className="nav-link tm-nav-link" to="/post/add">
-          <button>Add</button>
-        </Link>
+          <button onClick={
+        () => {
+          toggle();
+          setAction('add');
+        }
+      }>Add</button>
       </div>
       <table className="table">
         <thead>
@@ -52,12 +70,18 @@ const Post = () => {
           {
             posts.map(post => {
               return (
-                <tr>
+                <tr key={post._id}>
                   <th scope="row">{ post._id }</th>
                   <td>{ post.title }</td>
                   <td>{ post.description }</td>
-                  <td><Link className="nav-link tm-nav-link" to="/post/edit"><button>Edit</button></Link></td>
-                  <td><button>Delete</button></td>
+                  <td><button onClick={
+                    () => {
+                      toggle();
+                      setAction('edit');
+                      setPostId(post._id)
+                    }
+                  }>Edit</button></td>
+                  <td><button onClick={ () => {handleSubmit(post._id)}}>Delete</button></td>
                 </tr>
               );
             })

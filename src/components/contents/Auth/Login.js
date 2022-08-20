@@ -8,7 +8,7 @@ const Login = props => {
 
   const callApi = async (e) => {
     
-    e.preventDefault();
+     e.preventDefault();
     if ( !email || !password ) {
       console.log('Not params');
       return;

@@ -11,11 +11,11 @@ const postApi = {
     },
     addItem: (params) => {
         const urlApi = `/posts`;
-        return axiosClient.post(urlApi, { params });
+        return axiosClient.post(urlApi,  params );
     },
     editItem: (id, params) => {
         const urlApi = `/posts/${id}`;
-        return axiosClient.patch(urlApi, { params });
+        return axiosClient.patch(urlApi, params);
     },
     deleteItem: (id) => {
         const urlApi = `/posts/${id}`;
