@@ -10,8 +10,8 @@ const axiosClient = axios.create({
 })
 
 axiosClient.interceptors.request.use(async (config) => {
-    const token = sessionStorage.getItem('token');
-    config.headers.Authorization =  token ? `Bearer ${token}` : '';
+    const token = JSON.parse(sessionStorage.getItem('token'));
+    config.headers.Authorization =  token ? token : '';
     return config;
 });
 

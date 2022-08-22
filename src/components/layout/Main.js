@@ -1,21 +1,21 @@
-import React, {  useEffect, useState } from 'react';
+import React, {  useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../contents/Home';
 import Post from '../contents/Post';
 import Auth from '../contents/Auth';
 import Footer from '../layout/Footer';
 import Profile from '../contents/Profile';
-import FormAddPost from '../contents/Post/FormAddPost';
-import FormEditPost from '../contents/Post/FormEditPost';
+import  authProvider  from '../../contexts/AuthProvider';
+
 
 const Main = () => {
 
     const [authenticated, setAuthenticated] = useState(null);
+    const { auth } = useContext(authProvider);
+
     useEffect(() => {
         const loggedInUser = sessionStorage.getItem("token");
-        if (loggedInUser) {
-            setAuthenticated(loggedInUser);
-        }
+        setAuthenticated(loggedInUser);
     }, []);
 
     return (
@@ -27,15 +27,20 @@ const Main = () => {
                             <div className="col-12">
                                 <div className="mx-auto tm-about-text-container px-3">
                                     {
-                                        (!authenticated) ? (<Auth></Auth>) : (
-                                            <Routes>
-                                                <Route path="/" element={<Home/>} exact />
-                                                <Route path="/post" element={<Post/>} to="/post" exact />
-                                                <Route path="/profile" element={<Profile ></Profile>} exact />
-                                                <Route path="/post/add" element={<FormAddPost ></FormAddPost>} exact />
-                                                <Route path="/post/edit" element={<FormEditPost ></FormEditPost>} exact />
-                                            </Routes>
-                                        )
+                                        (authenticated && auth) ?(
+                                                
+                                                    <Routes>
+                                                        <Route path="/post" element={<Post/>} exact />
+                                                        <Route path="/profile" element={<Profile ></Profile>} exact />
+                                                        <Route path="/" element={<Home/>} exact />
+                                                        <Route path="/auth" element={<Auth ></Auth>}></Route>
+                                                    </Routes>
+                                     
+                                                
+                                         ) : (
+                                                (<Auth></Auth>)
+                                         )
+                                        
                                     }
                                 </div>
                             </div>

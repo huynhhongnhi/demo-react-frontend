@@ -19,7 +19,8 @@ const Pagination = props => {
 
     const pStyle = {
         justifyContent: 'space-between',
-        display: 'flex'
+        display: 'flex',
+        width: '100%'
     };
 
     return (

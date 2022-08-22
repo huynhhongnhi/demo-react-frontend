@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
+import authProvider from '../../contexts/AuthProvider';
 
 const Navbar = () => {
-
-    const location = useLocation();
-
     const pathname = useLocation().pathname;
 
     const [authenticated, setAuthenticated] = useState(null);
+    const { setAuth, auth } = useContext(authProvider); 
 
     const logOut = () => {
         setAuthenticated({});
         sessionStorage.removeItem('token');
+        setAuth('');
     }
 
     useEffect(() => {
@@ -43,15 +43,10 @@ const Navbar = () => {
                         <Link className="nav-link tm-nav-link" to="/profile">Profile</Link>
                     </li>
                     {
-                        (authenticated) ? (
-                            <li onClick={logOut} className={`${pathname === '/' ? 'nav-item active' : 'nav-item'}`}>
-                                <Link className="nav-link tm-nav-link" to="/">Logout</Link>
-                            </li> 
-                        ) : (
-                            <li className={`${pathname === '/auth' ? 'nav-item active' : 'nav-item'}`}>
-                                <Link className="nav-link tm-nav-link" to="/auth">Login</Link>
-                            </li>
-                        )
+    
+                        (authenticated && auth) ? (<li onClick={logOut} className={`${pathname === '/logout' ? 'nav-item active' : 'nav-item'}`}>
+                        <Link className="nav-link tm-nav-link" to="/">Logout</Link>
+                    </li> ) : null
                     }
                 </ul>
             </div>

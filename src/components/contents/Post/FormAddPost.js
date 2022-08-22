@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import postApi from '../../../api/postApi';
 
-const Add = ({hide}) => {
+const Add = ({hide, fetchPostList}) => {
   const [title, setTitle] = useState(null);
   const [description, setDesciption] = useState(null);
 
@@ -17,6 +17,7 @@ const Add = ({hide}) => {
     e.preventDefault();
     const response = await postApi.addItem({ title, description });
     try {
+      fetchPostList();
       hide();
     } catch (error) {
       console.log(error)
@@ -32,7 +33,7 @@ const Add = ({hide}) => {
             <input
               type="text"
               className="form-control mt-1"
-              placeholder="Enter email"
+              placeholder="Enter title"
               onChange={handTitleChange}
 
             />
@@ -42,7 +43,7 @@ const Add = ({hide}) => {
             <textarea
               type="text"
               className="form-control mt-1"
-              placeholder="Enter password"
+              placeholder="Enter desciption"
               onChange={handDescriptionChange}
             />
           </div>

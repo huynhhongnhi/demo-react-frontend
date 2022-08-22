@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import postApi from '../../../api/postApi';
 
-const Add = props => {
+const Add = ({ fetchPostList, postId, hide }) => {
 
   const [post, setPost] = useState({});
 
@@ -18,22 +18,21 @@ const Add = props => {
 
   useEffect(() => {
       async function fetchDetail() {
-          const res = await postApi.fetchDetail(props.postId);
+          const res = await postApi.fetchDetail(postId);
           const { data } = res;
           setPost(data);
           setTitle(data.title)
           setDesciption(data.description)
-          console.log(post)
-          console.log(data)
       }
       fetchDetail();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await postApi.editItem(props.postId, { title, description });
+    const response = await postApi.editItem(postId, { title, description });
     try {
-      props.hide();
+      fetchPostList();
+      hide();
     } catch (error) {
       console.log(error)
     }
@@ -48,7 +47,7 @@ const Add = props => {
             <input
               type="text"
               className="form-control mt-1"
-              placeholder="Enter email"
+              placeholder="Enter title"
               value={title}
               onChange={handTitleChange}
             />
@@ -58,7 +57,7 @@ const Add = props => {
             <textarea
               type="text"
               className="form-control mt-1"
-              placeholder="Enter password"
+              placeholder="Enter description"
               value={description}
               onChange={handDescriptionChange}
             />

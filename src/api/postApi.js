@@ -1,8 +1,10 @@
 import axiosClient from "./axiosClient";
+import queryString from 'query-string';
 
 const postApi = {
     fetchList: (limit, skip) => {
-        const urlApi = `/posts?limit=${limit}&page=${skip}`;
+        const paramString = queryString.stringify({ limit, skip });
+        const urlApi = `/posts?${paramString}`;
         return axiosClient.get(urlApi);
     },
     fetchDetail: (id) => {

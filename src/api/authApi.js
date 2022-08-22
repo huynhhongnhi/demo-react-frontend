@@ -8,11 +8,11 @@ const authApi = {
     },
     register: (params) => {
         const url = '/auth/register';
-        const { email, password } = params
+        const { email, password, username } = params
         return axiosClient.post(url, { email, password, username });
     },
     profile: () => {
-        const url = '/api/profile';
+        const url = '/me';
         return axiosClient.get(url);
     }
 }

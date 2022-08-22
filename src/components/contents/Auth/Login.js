@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import authApi from '../../../api/authApi';
+import authProvider from '../../../contexts/AuthProvider';
 
 const Login = props => {
 
   const [email, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const { setAuth } = useContext(authProvider);
 
   const callApi = async (e) => {
     
@@ -18,6 +20,8 @@ const Login = props => {
     if (res) {
       const accessToken = res?.data?.token;
       sessionStorage.setItem('token', JSON.stringify(accessToken));
+      setAuth(JSON.stringify(accessToken))
+      window.location.reload(false);
     }
   }
 

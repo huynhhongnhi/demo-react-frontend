@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import FormAddPost from '../Post/FormAddPost';
 import FormEditPost from '../Post/FormEditPost';
 
-const Modal = ({ isShowing, hide, action, postId }) => isShowing ? ReactDOM.createPortal(
+const Modal = ({ isShowing, hide, action, postId, fetchPostList }) => isShowing ? ReactDOM.createPortal(
   <React.Fragment>
     <div className="modal-overlay"/>
     <div className="modal-wrapper" aria-modal aria-hidden tabIndex={-1} role="dialog">
@@ -15,7 +15,7 @@ const Modal = ({ isShowing, hide, action, postId }) => isShowing ? ReactDOM.crea
         </div>
         <p>
           {
-            (action !== 'add') ? (<FormEditPost postId={postId} hide={hide}></FormEditPost>) : (<FormAddPost hide={hide}></FormAddPost>) 
+            (action !== 'add') ? (<FormEditPost fetchPostList={fetchPostList} postId={postId} hide={hide}></FormEditPost>) : (<FormAddPost fetchPostList={fetchPostList} hide={hide}></FormAddPost>) 
           }
         </p>
       </div>

@@ -19,11 +19,11 @@ const Post = () => {
   const [postId, setPostId] = useState(0);
 
   const nextPage = () => {
-      setSkip(skip + limit);
+    setSkip(skip + limit);
   }
 
   const previousPage = () => {
-      setSkip(skip - limit);
+    setSkip(skip - limit);
   }
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const Post = () => {
   
   return (
     <>
-      <Modal isShowing={isShowing} hide={toggle} action={action} postId={postId}></Modal>
+      <Modal fetchPostList={fetchPostList} isShowing={isShowing} hide={toggle} action={action} postId={postId}></Modal>
       <div style={styleAdd}>
           <button onClick={
         () => {
