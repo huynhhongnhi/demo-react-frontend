@@ -58,7 +58,7 @@ const Login = props => {
             <p className="forgot-password text-center mt-2">
               Forgot <a href="#">password ?</a>
               <br/>
-              <span onClick={props.changeAuthMode}>Sign up</span>
+              <span className='cursor-pointer' onClick={props.changeAuthMode}><a href="javascript:void(0)">Sign up</a></span>
             </p>
           </div>
         </form>

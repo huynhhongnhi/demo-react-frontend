@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FormAddPost from '../Post/FormAddPost';
-import FormEditPost from '../Post/FormEditPost';
+import FormAddPost from './FormAddPost';
+import FormEditPost from './FormEditPost';
 
 const Modal = ({ isShowing, hide, action, postId, fetchPostList }) => isShowing ? ReactDOM.createPortal(
   <React.Fragment>

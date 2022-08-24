@@ -39,14 +39,12 @@ const Navbar = () => {
                     <li className={`${pathname === '/post' ? 'nav-item active' : 'nav-item'}`}>
                         <Link className="nav-link tm-nav-link" to="/post">Admin</Link>
                     </li>
-                    <li className={`${pathname === '/profile' ? 'nav-item active' : 'nav-item'}`}>
-                        <Link className="nav-link tm-nav-link" to="/profile">Profile</Link>
-                    </li>
                     {
-    
-                        (authenticated && auth) ? (<li onClick={logOut} className={`${pathname === '/logout' ? 'nav-item active' : 'nav-item'}`}>
+                        (authenticated && auth) ? (<><li className={`${pathname === '/profile' ? 'nav-item active' : 'nav-item'}`}>
+                        <Link className="nav-link tm-nav-link" to="/profile">Profile</Link>
+                    </li><li onClick={logOut} className={`${pathname === '/logout' ? 'nav-item active' : 'nav-item'}`}>
                         <Link className="nav-link tm-nav-link" to="/">Logout</Link>
-                    </li> ) : null
+                    </li> </>) : null
                     }
                 </ul>
             </div>
