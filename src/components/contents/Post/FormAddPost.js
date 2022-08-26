@@ -39,9 +39,12 @@ const Add = ({hide, fetchPostList}) => {
     e.preventDefault();
     
     try {
-
-      const file = await convertBase64(image);
-      const response = await postApi.addItem({ title, description, file: file });
+      let imageBase64 = null;
+      if (image) {
+        imageBase64 = await convertBase64(image);
+      }
+      
+      const response = await postApi.addItem({ title, description, file: imageBase64 });
       if (response) {
         fetchPostList();
         hide();
