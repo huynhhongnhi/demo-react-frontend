@@ -35,16 +35,27 @@ const Add = ({hide, fetchPostList}) => {
     }
   };
 
+  const  getFileExtension = (filename) => {
+    // get file extension
+    const extension = filename.substring(filename.lastIndexOf('.') + 1, filename.length);
+    return extension;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     try {
-      let imageBase64 = null;
+      let attachments = {};
       if (image) {
-        imageBase64 = await convertBase64(image);
+        console.log(image)
+        const imageBase64 = await convertBase64(image);
+        const extension = getFileExtension(image.name)
+        attachments = {
+          imageBase64, extension, type: image.type
+        }
       }
       
-      const response = await postApi.addItem({ title, description, file: imageBase64 });
+      const response = await postApi.addItem({ title, description, attachments });
       if (response) {
         fetchPostList();
         hide();
