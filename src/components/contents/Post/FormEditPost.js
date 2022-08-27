@@ -3,8 +3,6 @@ import postApi from '../../../api/postApi';
 
 const Add = ({ fetchPostList, postId, hide }) => {
 
-  const [post, setPost] = useState({});
-
   const [title, setTitle] = useState(null);
   const [description, setDesciption] = useState(null);
 
@@ -20,7 +18,6 @@ const Add = ({ fetchPostList, postId, hide }) => {
       async function fetchDetail() {
           const res = await postApi.fetchDetail(postId);
           const { data } = res;
-          setPost(data);
           setTitle(data.title)
           setDesciption(data.description)
       }
@@ -28,9 +25,9 @@ const Add = ({ fetchPostList, postId, hide }) => {
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await postApi.editItem(postId, { title, description });
     try {
+      e.preventDefault();
+      await postApi.editItem(postId, { title, description });
       fetchPostList();
       hide();
     } catch (error) {

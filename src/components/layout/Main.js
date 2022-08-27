@@ -3,7 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Home from '../Contents/Home';
 import Post from '../Contents/Post';
 import Auth from '../Contents/Auth';
-import Footer from '../Layout/Footer';
+import Footer from './Footer';
 import Profile from '../Contents/Profile';
 import  authProvider  from '../../contexts/AuthProvider';
 

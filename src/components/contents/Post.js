@@ -5,7 +5,7 @@ import Modal from "./Post/Modal";
 import useModal from './Post/useModal';
 
 const Post = () => {
-  
+
   const styleAdd = {
     textAlign: 'right',
     marginBottom: '10px'
@@ -27,7 +27,12 @@ const Post = () => {
   }
 
   useEffect(() => {
-      fetchPostList();
+    async function fetchPostList() {
+      const res = await postApi.fetchList(limit, skip);
+      const { data } = res;
+      setPostList(data);
+    }
+    fetchPostList();
   }, [skip, limit]);
 
   async function fetchPostList() {
@@ -37,8 +42,8 @@ const Post = () => {
   }
 
   const handleSubmit = async (postId) => {
-    const response = await postApi.deleteItem(postId);
     try {
+      await postApi.deleteItem(postId);
       fetchPostList();
     } catch (error) {
       console.log(error)
@@ -70,7 +75,7 @@ const Post = () => {
           {
             posts.map(post => {
               return (
-                <tr key={post._id}>
+                <tr key={ post._id }>
                   <th scope="row">{ post._id }</th>
                   <td>{ post.title }</td>
                   <td>{ post.description }</td>
@@ -81,7 +86,7 @@ const Post = () => {
                       setPostId(post._id)
                     }
                   }>Edit</button></td>
-                  <td><button onClick={ () => {handleSubmit(post._id)}}>Delete</button></td>
+                  <td><button onClick={ () => { handleSubmit(post._id)} }>Delete</button></td>
                 </tr>
               );
             })

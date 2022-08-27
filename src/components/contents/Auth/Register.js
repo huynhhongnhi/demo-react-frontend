@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import authApi from '../../../api/authApi';
+import authProvider from '../../../contexts/AuthProvider';
 
 const Register = props => {
 
   const [ username, setUsername ] = useState('');
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
+  const { setAuth } = useContext(authProvider);
 
   const handUsernameChange = e => {
     setUsername(e.target.value)
@@ -23,10 +25,10 @@ const Register = props => {
     
     try {
       e.preventDefault();
-      const response = await authApi.register({ username, email, password });
-      if (response) {
-        alert("Your file is being uploaded!")
-        props.changeAuthMode();
+      const { data } = await authApi.register({ username, email, password });
+      if (data) {
+        sessionStorage.setItem('token', data.token);
+        setAuth(data.token)
       }
     } catch (error) {
       console.log(error)

@@ -33,7 +33,7 @@ const Pagination = props => {
             </button>
             <button
                 onClick={ () => handNextPage() }
-                disabled={ posts.length == 0 }
+                disabled={ posts.length === 0 }
             >
                 Next
             </button>

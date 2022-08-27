@@ -47,7 +47,6 @@ const Add = ({hide, fetchPostList}) => {
     try {
       let attachments = {};
       if (image) {
-        console.log(image)
         const imageBase64 = await convertBase64(image);
         const extension = getFileExtension(image.name)
         attachments = {
